@@ -1,5 +1,6 @@
-import { BigNumberish, ethers } from "ethers";
+import { ethers } from "hardhat";
 import assert from "assert";
+import { BigNumberish } from "ethers";
 
 import { UniswapV2Router02__factory } from "../types/ethers-contracts/factories/UniswapV2Router02__factory";
 
@@ -19,8 +20,7 @@ require("dotenv").config();
  */
 export async function getUniV2PriceImpact(inputToken: string, outputToken: string, inputAmount: BigNumberish) {
 
-  const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_KEY);
-  const signer = ethers.Wallet.createRandom().connect(provider);
+  const [ signer ] = await ethers.getSigners();
 
   assert.ok(process.env.ROUTER);
   const router = UniswapV2Router02__factory.connect(process.env.ROUTER, signer);

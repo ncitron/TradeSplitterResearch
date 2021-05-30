@@ -1,6 +1,6 @@
 import assert from "assert";
 import { BigNumber } from "ethers";
-import { formatEther, parseEther } from "ethers/lib/utils";
+import { parseEther } from "ethers/lib/utils";
 import { getUniV2PriceImpact } from "./uniV2PriceImpact";
 import { getUniV3PriceImpact } from "./uniV3PriceImpact";
 

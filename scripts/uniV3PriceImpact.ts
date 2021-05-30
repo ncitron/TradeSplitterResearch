@@ -1,4 +1,5 @@
-import { BigNumberish, ethers } from "ethers";
+import { ethers } from "hardhat";
+import { BigNumberish } from "ethers";
 import assert from "assert";
 
 import { Quoter__factory } from "../types/ethers-contracts/factories/Quoter__factory";
@@ -19,8 +20,7 @@ require("dotenv").config();
  */
 export async function getUniV3PriceImpact(inputToken: string, outputToken: string, inputAmount: BigNumberish) {
 
-  const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_KEY);
-  const signer = ethers.Wallet.createRandom().connect(provider);
+  const [ signer ] = await ethers.getSigners();
 
   assert.ok(process.env.QUOTER);
   const quoter = Quoter__factory.connect(process.env.QUOTER, signer);
