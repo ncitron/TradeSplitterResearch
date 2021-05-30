@@ -5,7 +5,7 @@ This strategy makes one assumption, that the price on Uniswap is equal to the pr
 
 ## Splitting Trades Between Uni V2 and UNI V3
 ### Strategy 1: Off-chain computation
-This is likely the simplest, but least trustless strategy. This requires that we calculate the price impact experienced at regular interval splits between v2 and v3. When we find a percentage split where the price impact is identical for v2 and v3, we have found the one that experiences the least total slippage. An example of this method can be seen in `src/offChainV2V3Splitter.ts`
+This is likely the simplest, but least trustless strategy. This requires that we calculate the price impact experienced at regular interval splits between v2 and v3. When we find a percentage split where the price impact is identical for v2 and v3, we have found the one that experiences the least total slippage. An example of this method can be seen in `src/offchainV2V3Splitter.ts`
 This method's main drawback is requiring a trusted keeper to calculate this split off-chain. Additionally, this method is slow to compute with a high degree of accuracy. There may be some optimizations we can make to increase its speed.
 
 ### Strategy 2: On-chain computation
