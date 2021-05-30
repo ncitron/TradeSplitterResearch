@@ -1,7 +1,7 @@
 import { BigNumberish, ethers } from "ethers";
 import assert from "assert";
 
-import { Quoter__factory } from "../types/ethers-contracts/factories/Quoter__factory";
+import { UniswapV2Router02__factory } from "../types/ethers-contracts/factories/UniswapV2Router02__factory";
 
 const {
   parseEther,
@@ -17,31 +17,19 @@ require("dotenv").config();
  * @param outputToken output token address
  * @param inputAmount amount to test price impact for
  */
-export async function getUniV3PriceImpact(inputToken: string, outputToken: string, inputAmount: BigNumberish) {
+export async function getUniV2PriceImpact(inputToken: string, outputToken: string, inputAmount: BigNumberish) {
 
   const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_KEY);
   const signer = ethers.Wallet.createRandom().connect(provider);
 
-  assert.ok(process.env.QUOTER);
-  const quoter = Quoter__factory.connect(process.env.QUOTER, signer);
+  assert.ok(process.env.ROUTER);
+  const router = UniswapV2Router02__factory.connect(process.env.ROUTER, signer);
 
   const smallAmount = 0.01
-  const priceSmallAmount = await quoter.callStatic.quoteExactInputSingle(
-    inputToken,
-    outputToken,
-    3000,
-    parseEther(smallAmount.toString()),
-    0
-  );
+  const priceSmallAmount = (await router.getAmountsOut(parseEther(smallAmount.toString()), [inputToken, outputToken]))[1];
   const price = priceSmallAmount.mul(1/smallAmount);
 
-  const priceLargeAmount = await quoter.callStatic.quoteExactInputSingle(
-    inputToken,
-    outputToken,
-    3000,
-    inputAmount,
-    0
-  );
+  const priceLargeAmount = (await router.getAmountsOut(inputAmount, [inputToken, outputToken]))[1];
   const priceWithImpact = priceLargeAmount.mul(parseEther("1")).div(inputAmount);
 
   const impact = priceWithImpact.sub(price);

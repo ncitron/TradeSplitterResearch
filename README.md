@@ -5,8 +5,8 @@ This strategy makes one assumption, that the price on Uniswap is equal to the pr
 
 ## Splitting Trades Between Uni V2 and UNI V3
 ### Strategy 1: Off-chain computation
-This is likely the simplest, but least trustless strategy. This requires that we calculate the price impact experienced at regular interval splits between v2 and v3. When we find a percentage split where the price impact is identical for v2 and v3, we have found the one that experiences the least total slippage.  
-This method's main drawback is requiring a trusted keeper to calculate this split off-chain.
+This is likely the simplest, but least trustless strategy. This requires that we calculate the price impact experienced at regular interval splits between v2 and v3. When we find a percentage split where the price impact is identical for v2 and v3, we have found the one that experiences the least total slippage. An example of this method can be seen in `src/offChainV2V3Splitter.ts`
+This method's main drawback is requiring a trusted keeper to calculate this split off-chain. Additionally, this method is slow to compute with a high degree of accuracy. There may be some optimizations we can make to increase its speed.
 
 ### Strategy 2: On-chain computation
 It may be possible to efficiently compute the split on-chain. This strategy would require completing a similar computation as Uniswap V3 does when it performs a swap. We would perform a mock v3 swap in our own contract, where we calculate the amount of liquidity that has been swapped as we pass each liquidity tick. At the end of each tick, we know our current tick position (and thus the amount of price impact we have so far experienced), as well as the amount we have already swapped (and thus the amount left to be swapped). At each tick, we would use the amount left to be swapped, and check what the price impact would be in a simulated v2 swap for that amount. When the price impact of the simulated v2 swap is equal to the price impact of the ongoing simulated v3 swap, we have determined the optimal split.  
