@@ -14,6 +14,9 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
+      accounts: {
+        accountsBalance: "10000000000000000000000000",
+      },
       forking: {
         blockNumber: 12538004,
         url: process.env.ALCHEMY_KEY || ""

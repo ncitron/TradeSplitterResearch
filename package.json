@@ -1,5 +1,5 @@
 {
- "scripts": {
+  "scripts": {
     "generate-types": "typechain --target=ethers-v5 'abi/*.json'"
   },
   "dependencies": {
@@ -7,6 +7,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@typechain/ethers-v5": "^7.0.0",
     "@typechain/hardhat": "^2.0.1",
+    "@types/mocha": "^8.2.2",
     "@types/node": "^15.6.1",
     "assert": "^2.0.0",
     "chai": "^4.3.4",
