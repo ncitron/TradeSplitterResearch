@@ -1,6 +1,7 @@
 # TradeSplitter Research
 ## Splitting Trades Between Uni and Sushi
-This one is relatively simple. Since price impact scales linearly with liquidity, the trade size must be split proportionally to the pool size. For example, if the Uniswap pool has 70M in liquidity, and the Sushiswap pool has 30M, then the trade must be split 70% to Uniswap and 30% to Sushiswap.  
+This one is relatively simple. Since price impact scales linearly with liquidity, the trade size must be split proportionally to the pool size. For example, if the Uniswap pool has 70M in liquidity, and the Sushiswap pool has 30M, then the trade must be split 70% to Uniswap and 30% to Sushiswap. For multihop trades, the ratio between Sushiswap and Uniswap is:
+Ts/Tu = ((Pua + Pub) * Psa * Psb)/((Psa + Psb) * Pua * Pub), where Ts if the Sushiswap trade size, Tu is the Uniswap trade size, Pua is the liquidty on Uniswap for pool a, Pub is the liquidity on Uniswap for pool b, Psa is the liquidity on Sushiswap for pool a, and Psb is the liquidity on Sushiswap for pool b.
 This strategy makes one assumption, that the price on Uniswap is equal to the price on Sushiswap. In cases where the trade size is exceedingly large, it is likely that this assumption is fair, as the price difference is likely much less than the price impact
 
 ## Splitting Trades Between Uni V2 and UNI V3
